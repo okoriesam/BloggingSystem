@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  blogging-system:
+    image: blogging-system
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=postgres;port=5432;Database=Blogging;User Id=postgres;Password=Mothercall123;
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: Blogging
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mothercall123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
